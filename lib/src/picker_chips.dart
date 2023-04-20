@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 
-/* Created by
-   Varcant
-   nanda.kista@gmail.com
-*/
 class PickerChips extends StatelessWidget {
   const PickerChips({
     Key? key,
