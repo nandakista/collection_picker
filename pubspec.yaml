@@ -1,5 +1,7 @@
 name: collection_picker
-description: A package for create collection picker widget
+description: A Package contains selectable listview and gridview widgets with support 
+  for single, multi, and radio picker types. The data is generic so it can be used using any data. 
+  Help you to create a filters, multi choices and etc.
 version: 0.0.1
 repository: https://github.com/nandakista/collection_picker
 

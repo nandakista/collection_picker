@@ -12,8 +12,6 @@ class ListViewPicker<T> extends StatefulWidget {
     required this.data,
     required this.onChanged,
     required this.itemBuilder,
-    this.widthItem,
-    this.heightItem,
     this.shrinkWrap = false,
     this.physics,
     this.separator,
@@ -21,17 +19,30 @@ class ListViewPicker<T> extends StatefulWidget {
     this.scrollDirection = Axis.vertical,
   }) : super(key: key);
 
+  /// Type of picker (single, radio, or multi)
   final PickerType type;
+
+  /// The given data in widget
   final List<T> data;
-  final PickerItemBuilder<PickerData<T>> itemBuilder;
-  final PickerOnChanged<T> onChanged;
-  final double? widthItem;
-  final double? heightItem;
-  final bool shrinkWrap;
-  final ScrollPhysics? physics;
-  final Widget? separator;
+
+  /// Initial value which will be set as selected
   final T? initialValue;
+
+  /// Builder function to create each item in the GridView widget.
+  final PickerItemBuilder<PickerData<T>> itemBuilder;
+
+  /// Called when the user select some value in the picker
+  final PickerOnChanged<T> onChanged;
+
+  /// Separator widget for each item in the ListView
+  final Widget? separator;
+
+  /// Scroll Direction of ListView
   final Axis scrollDirection;
+
+  final bool shrinkWrap;
+
+  final ScrollPhysics? physics;
 
   @override
   State<ListViewPicker<T>> createState() => _ListViewPickerState<T>();
@@ -95,6 +106,7 @@ class _ListViewPickerState<T> extends State<ListViewPicker<T>> {
     );
   }
 
+  /// The function to set selected initial value
   void _setInitial() {
     if (widget.initialValue != null) {
       int index =

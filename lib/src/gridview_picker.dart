@@ -12,8 +12,8 @@ class GridViewPicker<T> extends StatefulWidget {
     required this.data,
     required this.onChanged,
     required this.itemBuilder,
-    this.widthItem,
-    this.heightItem,
+    this.maxCrossAxisExtent,
+    this.mainAxisExtent,
     this.crossAxisSpacing,
     this.mainAxisSpacing = 0.0,
     this.shrinkWrap = false,
@@ -21,17 +21,36 @@ class GridViewPicker<T> extends StatefulWidget {
     this.initialValue,
   }) : super(key: key);
 
+  /// Type of picker (single, radio, or multi)
   final PickerType type;
+
+  /// The given data in widget
   final List<T> data;
-  final PickerItemBuilder<PickerData<T>> itemBuilder;
-  final PickerOnChanged<T> onChanged;
-  final double? widthItem;
-  final double? heightItem;
-  final double? crossAxisSpacing;
-  final double mainAxisSpacing;
-  final bool shrinkWrap;
-  final ScrollPhysics? physics;
+
+  /// Initial value which will be set as selected
   final T? initialValue;
+
+  /// Builder function to create each item in the GridView widget.
+  final PickerItemBuilder<PickerData<T>> itemBuilder;
+
+  /// Called when the user select some value in the picker
+  final PickerOnChanged<T> onChanged;
+
+  /// MaxCrossAxisExtent of the GridView with default value 200
+  final double? maxCrossAxisExtent;
+
+  /// MainAxisExtent of the GridView with default value 50
+  final double? mainAxisExtent;
+
+  /// CrossAxisSpacing of the GridView with default value 8
+  final double? crossAxisSpacing;
+
+  /// MainAxisSpacing of the GridView
+  final double mainAxisSpacing;
+
+  final bool shrinkWrap;
+
+  final ScrollPhysics? physics;
 
   @override
   State<GridViewPicker<T>> createState() => _GridViewPickerState<T>();
@@ -54,8 +73,8 @@ class _GridViewPickerState<T> extends State<GridViewPicker<T>> {
       physics: widget.physics,
       itemCount: tempData.length,
       gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-        maxCrossAxisExtent: widget.widthItem ?? 200,
-        mainAxisExtent: widget.heightItem ?? 50,
+        maxCrossAxisExtent: widget.maxCrossAxisExtent ?? 200,
+        mainAxisExtent: widget.mainAxisExtent ?? 50,
         crossAxisSpacing: widget.crossAxisSpacing ?? 8,
         mainAxisSpacing: widget.mainAxisSpacing,
       ),
