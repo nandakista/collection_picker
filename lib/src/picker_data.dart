@@ -1,5 +1,5 @@
 /// Base model for wrapping the item collection picker
-class PickerData<T> {
+class PickerWrapper<T> {
   /// Value for indicate the data is selected
   bool isSelected;
 
@@ -13,20 +13,20 @@ class PickerData<T> {
   /// The actual data in item of the GridView or ListView Picker
   T? data;
 
-  PickerData({
+  PickerWrapper({
     this.isSelected = false,
     this.isAvailable = true,
     this.index,
     this.data,
   });
 
-  PickerData<T> copy({
+  PickerWrapper<T> copy({
     bool? isSelected,
     bool? isAvailable,
     int? index,
     T? data,
   }) =>
-      PickerData(
+      PickerWrapper(
         isSelected: isSelected ?? this.isSelected,
         isAvailable: isAvailable ?? this.isAvailable,
         index: index ?? this.index,

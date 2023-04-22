@@ -19,6 +19,8 @@ class GridViewPicker<T> extends StatefulWidget {
     this.shrinkWrap = false,
     this.physics,
     this.initialValue,
+    this.initialValues,
+    this.unavailableDataIndex,
   }) : super(key: key);
 
   /// Type of picker (single, radio, or multi)
@@ -30,8 +32,15 @@ class GridViewPicker<T> extends StatefulWidget {
   /// Initial value which will be set as selected
   final T? initialValue;
 
+  /// List of initial value.
+  /// Use this [initialValues] if you have more than one data for initial value.
+  final List<T>? initialValues;
+
+  /// List index of element that can't be select
+  final List<int>? unavailableDataIndex;
+
   /// Builder function to create each item in the GridView widget.
-  final PickerItemBuilder<PickerData<T>> itemBuilder;
+  final PickerItemBuilder<PickerWrapper<T>> itemBuilder;
 
   /// Called when the user select some value in the picker
   final PickerOnChanged<T> onChanged;
@@ -57,12 +66,18 @@ class GridViewPicker<T> extends StatefulWidget {
 }
 
 class _GridViewPickerState<T> extends State<GridViewPicker<T>> {
-  List<PickerData<T>> tempData = [];
+  List<PickerWrapper<T>> tempData = [];
 
   @override
   void initState() {
-    tempData = widget.data.map((e) => PickerData(data: e)).toList();
-    _setInitial();
+    tempData = widget.data.map((e) => PickerWrapper(data: e)).toList();
+    _setAvailableValues();
+    if (widget.initialValues != null && widget.initialValue != []) {
+      _setInitialValues();
+    } else {
+      _setInitialValue();
+    }
+    // _setInitialValue();
     super.initState();
   }
 
@@ -116,11 +131,33 @@ class _GridViewPickerState<T> extends State<GridViewPicker<T>> {
     );
   }
 
-  void _setInitial() {
+  void _setAvailableValues() {
+    for (int i in widget.unavailableDataIndex ?? []) {
+      tempData[i].isAvailable = false;
+    }
+  }
+
+  /// The function to set list of initial value as selected
+  void _setInitialValues() {
+    for (var initialData in widget.initialValues!) {
+      int index = tempData.indexWhere((e) => e.data == initialData);
+      if (tempData[index].isAvailable) {
+        tempData[index] = PickerWrapper(
+          isSelected: true,
+          index: index,
+          data: widget.initialValue,
+        );
+      } else {
+        throw "Initial value can't include in notAvailableIndex";
+      }
+    }
+  }
+
+  void _setInitialValue() {
     if (widget.initialValue != null) {
       int index =
           tempData.indexWhere((element) => element.data == widget.initialValue);
-      tempData[index] = PickerData(
+      tempData[index] = PickerWrapper(
         isSelected: true,
         index: index,
         data: widget.initialValue,

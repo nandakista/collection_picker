@@ -53,25 +53,26 @@ List<CityModel> dataCity = [
 ];
 ```
 
-### PickerListView
+### ListViewPicker
 
 <img src="https://user-images.githubusercontent.com/47182823/233113361-7ccfebb0-28a1-4692-b3dc-3c574d651306.gif" width="800" />
 
 ```dart
-PickerListView<CityModel>(
+ListViewPicker<CityModel>(
   type: PickerType.single,
   shrinkWrap: true,
   physics: const NeverScrollableScrollPhysics(),
   separator: const Divider(thickness: 1, height: 16),
   initialValue: dataCity.first,
   data: dataCity,
-  itemBuilder: (PickerData<CityModel> item) {
+  unavailableDataIndex: [2, 4],
+  itemBuilder: (PickerWrapper<CityModel> item) {
     return SizedBox(
       height: 20,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text('${item.data?.name}'),
+          Text('${item.data?.city}'),
           (item.isSelected)
               ? const Icon(Icons.check)
               : const SizedBox.shrink()
@@ -81,27 +82,27 @@ PickerListView<CityModel>(
   },
   onChanged: (context, index, selectedItem, selectedListItem) {
     // when the type is single/radio, you should use this
-    debugPrint('Selected item = $selectedItem');
+    debugPrint('Selected item = ${selectedItem.city}');
 
     /// when the type is multiple, you should use this
-    debugPrint('All selected item = $selectedListItem');
+    debugPrint('All selected item = ${selectedListItem.map((e) => e?.city)}');
   },
 )
 ```
 
-### PickerGridView
+### GridViewPicker
 
 Actually is same as Picker ListView but it is serves as GridView.
 
 <img src="https://user-images.githubusercontent.com/47182823/233122729-e20c9c91-003a-4ff4-919f-6a65d6446bc0.gif" width="300" />
 
 ```dart
-PickerGridView(
+GridViewPicker(
   type: PickerType.multiple,
   shrinkWrap: true,
   initialValue: dataCity.first,
   data: dataCity,
-  itemBuilder: (PickerData<CityModel> item) {
+  itemBuilder: (PickerWrapper<CityModel> item) {
     return Container(
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
@@ -111,7 +112,7 @@ PickerGridView(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text('${item.data?.name}'),
+          Text('${item.data?.city}'),
           (item.isSelected)
               ? const Icon(Icons.check)
               : const SizedBox.shrink()
@@ -121,10 +122,10 @@ PickerGridView(
   },
   onChanged: (context, index, selectedItem, selectedListItem) {
     // when the type is single/radio, you should use this
-    debugPrint('selected item = ${selectedItem?.name}');
+    debugPrint('selected item = ${selectedItem?.city}');
 
     /// when the type is multiple, you should use this
-    debugPrint('All selected item = ${selectedListItem.map((e) => e?.name)}');
+    debugPrint('All selected item = ${selectedListItem.map((e) => e?.city)}');
   },
 )
 ```
