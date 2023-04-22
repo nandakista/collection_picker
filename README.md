@@ -23,6 +23,12 @@ Add dependency to your **pubspec.yaml**
 dependencies:
   collection_picker : "^version"
 ```
+
+Import it in your dart code
+```dart
+import 'package:collection_picker/collection_picker.dart';
+```
+
 # Usage
 
 We use sample data with model data and lists as real to make it easier for you to understand
@@ -65,7 +71,6 @@ ListViewPicker<CityModel>(
   separator: const Divider(thickness: 1, height: 16),
   initialValue: dataCity.first,
   data: dataCity,
-  unavailableDataIndex: [2, 4],
   itemBuilder: (PickerWrapper<CityModel> item) {
     return SizedBox(
       height: 20,

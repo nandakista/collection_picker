@@ -95,7 +95,7 @@ class _ListViewPickerState<T> extends State<ListViewPicker<T>> {
                 }
               }
               tempData = tempData.map(
-                    (otherChip) {
+                (otherChip) {
                   return item == otherChip
                       ? otherChip.copy(isSelected: isSelected)
                       : otherChip;

@@ -35,7 +35,7 @@ class CollectionPickerExample extends StatelessWidget {
               separator: const Divider(thickness: 1, height: 16),
               initialValue: dataCity.first,
               data: dataCity,
-              unavailableDataIndex: [2, 4],
+              unavailableDataIndex: [3, 5],
               itemBuilder: (PickerWrapper<CityModel> item) {
                 return SizedBox(
                   height: 20,
@@ -43,9 +43,11 @@ class CollectionPickerExample extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text('${item.data?.city}'),
-                      (item.isSelected)
-                          ? const Icon(Icons.check)
-                          : const SizedBox.shrink()
+                      (!item.isAvailable)
+                          ? const Text('Unavailable')
+                          : (item.isSelected)
+                              ? const Icon(Icons.check)
+                              : const SizedBox.shrink()
                     ],
                   ),
                 );
@@ -86,7 +88,8 @@ class CollectionPickerExample extends StatelessWidget {
                 debugPrint('selected item = ${selectedItem?.city}');
 
                 /// when the type is multiple, you should use this
-                debugPrint('All selected item = ${selectedListItem.map((e) => e?.city)}');
+                debugPrint(
+                    'All selected item = ${selectedListItem.map((e) => e?.city)}');
               },
             ),
           ],
