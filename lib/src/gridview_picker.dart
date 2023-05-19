@@ -1,4 +1,5 @@
 import 'package:collection_picker/src/list_extension.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import 'picker_data.dart';
@@ -21,6 +22,19 @@ class GridViewPicker<T> extends StatefulWidget {
     this.initialValue,
     this.initialValues,
     this.unavailableDataIndex,
+    this.padding,
+    this.controller,
+    this.cacheExtent,
+    this.reverse = false,
+    this.addAutomaticKeepAlives = true,
+    this.addRepaintBoundaries = true,
+    this.addSemanticIndexes = true,
+    this.keyboardDismissBehavior = ScrollViewKeyboardDismissBehavior.manual,
+    this.restorationId,
+    this.clipBehavior = Clip.hardEdge,
+    this.dragStartBehavior = DragStartBehavior.start,
+    this.primary,
+    this.findChildIndexCallback,
   }) : super(key: key);
 
   /// Type of picker (single, radio, or multi)
@@ -61,6 +75,21 @@ class GridViewPicker<T> extends StatefulWidget {
 
   final ScrollPhysics? physics;
 
+  final EdgeInsets? padding;
+
+  final ScrollController? controller;
+  final bool reverse;
+  final double? cacheExtent;
+  final bool? primary;
+  final String? restorationId;
+  final ScrollViewKeyboardDismissBehavior keyboardDismissBehavior;
+  final Clip clipBehavior;
+  final int? Function(Key)? findChildIndexCallback;
+  final DragStartBehavior dragStartBehavior;
+  final bool addAutomaticKeepAlives;
+  final bool addRepaintBoundaries;
+  final bool addSemanticIndexes;
+
   @override
   State<GridViewPicker<T>> createState() => _GridViewPickerState<T>();
 }
@@ -87,6 +116,19 @@ class _GridViewPickerState<T> extends State<GridViewPicker<T>> {
       shrinkWrap: widget.shrinkWrap,
       physics: widget.physics,
       itemCount: tempData.length,
+      padding: widget.padding,
+      controller: widget.controller,
+      reverse: widget.reverse,
+      cacheExtent: widget.cacheExtent,
+      addAutomaticKeepAlives: widget.addAutomaticKeepAlives,
+      addRepaintBoundaries: widget.addRepaintBoundaries,
+      addSemanticIndexes: widget.addSemanticIndexes,
+      clipBehavior: widget.clipBehavior,
+      dragStartBehavior: widget.dragStartBehavior,
+      findChildIndexCallback: widget.findChildIndexCallback,
+      keyboardDismissBehavior: widget.keyboardDismissBehavior,
+      primary: widget.primary,
+      restorationId: widget.restorationId,
       gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
         maxCrossAxisExtent: widget.maxCrossAxisExtent ?? 200,
         mainAxisExtent: widget.mainAxisExtent ?? 50,

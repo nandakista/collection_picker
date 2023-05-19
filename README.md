@@ -13,8 +13,8 @@ and the Flutter guide for
 
 # Overview
 
-This package contains a set of reusable widget.
-Provides common widgets that can help to your screen.
+A Package contains selectable listview and gridview widgets with 
+support for single, multi, and radio picker types.
 
 # Getting Started
 

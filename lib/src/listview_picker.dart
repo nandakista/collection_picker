@@ -1,4 +1,5 @@
 import 'package:collection_picker/src/list_extension.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import 'picker_data.dart';
@@ -19,6 +20,19 @@ class ListViewPicker<T> extends StatefulWidget {
     this.initialValues,
     this.scrollDirection = Axis.vertical,
     this.unavailableDataIndex,
+    this.padding,
+    this.controller,
+    this.cacheExtent,
+    this.reverse = false,
+    this.addAutomaticKeepAlives = true,
+    this.addRepaintBoundaries = true,
+    this.addSemanticIndexes = true,
+    this.keyboardDismissBehavior = ScrollViewKeyboardDismissBehavior.manual,
+    this.restorationId,
+    this.clipBehavior = Clip.hardEdge,
+    this.dragStartBehavior = DragStartBehavior.start,
+    this.primary,
+    this.findChildIndexCallback,
   }) : super(key: key);
 
   /// Type of picker (single, radio, or multi)
@@ -53,6 +67,21 @@ class ListViewPicker<T> extends StatefulWidget {
 
   final ScrollPhysics? physics;
 
+  final EdgeInsets? padding;
+
+  final ScrollController? controller;
+  final bool reverse;
+  final double? cacheExtent;
+  final bool? primary;
+  final String? restorationId;
+  final ScrollViewKeyboardDismissBehavior keyboardDismissBehavior;
+  final Clip clipBehavior;
+  final int? Function(Key)? findChildIndexCallback;
+  final DragStartBehavior dragStartBehavior;
+  final bool addAutomaticKeepAlives;
+  final bool addRepaintBoundaries;
+  final bool addSemanticIndexes;
+
   @override
   State<ListViewPicker<T>> createState() => _ListViewPickerState<T>();
 }
@@ -79,6 +108,19 @@ class _ListViewPickerState<T> extends State<ListViewPicker<T>> {
       physics: widget.physics,
       itemCount: tempData.length,
       scrollDirection: widget.scrollDirection,
+      padding: widget.padding,
+      controller: widget.controller,
+      reverse: widget.reverse,
+      cacheExtent: widget.cacheExtent,
+      addAutomaticKeepAlives: widget.addAutomaticKeepAlives,
+      addRepaintBoundaries: widget.addRepaintBoundaries,
+      addSemanticIndexes: widget.addSemanticIndexes,
+      clipBehavior: widget.clipBehavior,
+      dragStartBehavior: widget.dragStartBehavior,
+      findChildIndexCallback: widget.findChildIndexCallback,
+      keyboardDismissBehavior: widget.keyboardDismissBehavior,
+      primary: widget.primary,
+      restorationId: widget.restorationId,
       separatorBuilder: (BuildContext context, int index) {
         return widget.separator ?? const SizedBox.shrink();
       },
