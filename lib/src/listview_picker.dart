@@ -2,7 +2,7 @@ import 'package:collection_picker/src/list_extension.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
-import 'picker_data.dart';
+import 'picker_wrapper.dart';
 import 'picker_typedef.dart';
 import 'picker_chips.dart';
 
@@ -159,7 +159,7 @@ class _ListViewPickerState<T> extends State<ListViewPicker<T>> {
             }
             setState(() {});
           },
-          child: widget.itemBuilder(item),
+          child: widget.itemBuilder(context, index, item),
         );
       },
     );
@@ -178,7 +178,6 @@ class _ListViewPickerState<T> extends State<ListViewPicker<T>> {
       if (tempData[index].isAvailable) {
         tempData[index] = PickerWrapper(
           isSelected: true,
-          index: index,
           data: widget.initialValue,
         );
       } else {
@@ -194,7 +193,6 @@ class _ListViewPickerState<T> extends State<ListViewPicker<T>> {
       if (tempData[index].isAvailable) {
         tempData[index] = PickerWrapper(
           isSelected: true,
-          index: index,
           data: widget.initialValue,
         );
       } else {

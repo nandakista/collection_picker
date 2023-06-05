@@ -9,6 +9,8 @@ enum PickerType {
 
 /// Builder function to create each item in the GridView widget.
 typedef PickerItemBuilder<T> = Widget Function(
+  BuildContext context,
+  int index,
   T item,
 );
 

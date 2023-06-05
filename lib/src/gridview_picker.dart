@@ -2,7 +2,7 @@ import 'package:collection_picker/src/list_extension.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
-import 'picker_data.dart';
+import 'picker_wrapper.dart';
 import 'picker_typedef.dart';
 import 'picker_chips.dart';
 
@@ -167,7 +167,7 @@ class _GridViewPickerState<T> extends State<GridViewPicker<T>> {
             );
             setState(() {});
           },
-          child: widget.itemBuilder(item),
+          child: widget.itemBuilder(context, index, item),
         );
       },
     );
@@ -186,7 +186,6 @@ class _GridViewPickerState<T> extends State<GridViewPicker<T>> {
       if (tempData[index].isAvailable) {
         tempData[index] = PickerWrapper(
           isSelected: true,
-          index: index,
           data: widget.initialValue,
         );
       } else {
@@ -201,7 +200,6 @@ class _GridViewPickerState<T> extends State<GridViewPicker<T>> {
           tempData.indexWhere((element) => element.data == widget.initialValue);
       tempData[index] = PickerWrapper(
         isSelected: true,
-        index: index,
         data: widget.initialValue,
       );
       setState(() {});

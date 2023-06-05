@@ -36,7 +36,8 @@ class CollectionPickerExample extends StatelessWidget {
               initialValue: dataCity.first,
               data: dataCity,
               unavailableDataIndex: [3, 5],
-              itemBuilder: (PickerWrapper<CityModel> item) {
+              itemBuilder: (BuildContext context, int index,
+                  PickerWrapper<CityModel> item) {
                 return SizedBox(
                   height: 20,
                   child: Row(
@@ -65,7 +66,8 @@ class CollectionPickerExample extends StatelessWidget {
               shrinkWrap: true,
               initialValue: dataCity.first,
               data: dataCity,
-              itemBuilder: (PickerWrapper<CityModel> item) {
+              itemBuilder: (BuildContext context, int index,
+                  PickerWrapper<CityModel> item) {
                 return Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
@@ -76,9 +78,7 @@ class CollectionPickerExample extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text('${item.data?.city}'),
-                      (item.isSelected)
-                          ? const Icon(Icons.check)
-                          : const SizedBox.shrink()
+                      if (item.isSelected) const Icon(Icons.check),
                     ],
                   ),
                 );
