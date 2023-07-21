@@ -99,6 +99,11 @@ class _GridViewPickerState<T> extends State<GridViewPicker<T>> {
 
   @override
   void initState() {
+    setInitData();
+    super.initState();
+  }
+
+  void setInitData() {
     tempData = widget.data.map((e) => PickerWrapper(data: e)).toList();
     _setAvailableValues();
     if (widget.initialValues != null && widget.initialValue != []) {
@@ -106,12 +111,11 @@ class _GridViewPickerState<T> extends State<GridViewPicker<T>> {
     } else {
       _setInitialValue();
     }
-    // _setInitialValue();
-    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    setInitData();
     return GridView.builder(
       shrinkWrap: widget.shrinkWrap,
       physics: widget.physics,

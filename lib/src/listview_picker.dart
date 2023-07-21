@@ -91,6 +91,11 @@ class _ListViewPickerState<T> extends State<ListViewPicker<T>> {
 
   @override
   void initState() {
+    setInitData();
+    super.initState();
+  }
+
+  void setInitData() {
     tempData = widget.data.map((e) => PickerWrapper(data: e)).toList();
     _setAvailableValues();
     if (widget.initialValues != null && widget.initialValue != []) {
@@ -98,11 +103,11 @@ class _ListViewPickerState<T> extends State<ListViewPicker<T>> {
     } else {
       _setInitialValue();
     }
-    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    setInitData();
     return ListView.separated(
       shrinkWrap: widget.shrinkWrap,
       physics: widget.physics,
