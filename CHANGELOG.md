@@ -1,4 +1,8 @@
-## 0.0.2 + 5
+## 0.0.2 + 8
+
+- Add property enable, unavailableData
+
+## 0.0.2 + 7
 
 - Fix Bug widget only not update when using setState or other state management
 

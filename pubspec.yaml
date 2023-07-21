@@ -1,6 +1,6 @@
 name: collection_picker
 description: A Package contains selectable listview and gridview widgets with support for single, multi, and radio picker types.
-version: 0.0.2+7
+version: 0.0.2+8
 repository: https://github.com/nandakista/collection_picker
 
 environment:

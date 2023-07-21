@@ -33,6 +33,8 @@ class ListViewPicker<T> extends StatefulWidget {
     this.dragStartBehavior = DragStartBehavior.start,
     this.primary,
     this.findChildIndexCallback,
+    this.unavailableData,
+    this.enabled = true,
   }) : super(key: key);
 
   /// Type of picker (single, radio, or multi)
@@ -48,8 +50,14 @@ class ListViewPicker<T> extends StatefulWidget {
   /// Use this [initialValues] if you have more than one data for initial value.
   final List<T>? initialValues;
 
+  /// List of element that can't be select
+  final List<T>? unavailableData;
+
   /// List index of element that can't be select
   final List<int>? unavailableDataIndex;
+
+  /// Set to true for disable picker
+  final bool enabled;
 
   /// Builder function to create each item in the GridView widget.
   final PickerItemBuilder<PickerWrapper<T>> itemBuilder;
@@ -102,12 +110,16 @@ class _ListViewPickerState<T> extends State<ListViewPicker<T>> {
   }
 
   void setInitData() {
-    tempData = widget.data.map((e) => PickerWrapper(data: e)).toList();
-    _setAvailableValues();
-    if (widget.initialValues != null && widget.initialValue != []) {
+    tempData = widget.data
+        .map((e) => PickerWrapper(data: e, isAvailable: widget.enabled))
+        .toList();
+    _setUnavailableDataByIndex();
+    _setInitialValue();
+    if (widget.initialValues != null && widget.initialValues != []) {
       _setInitialValues();
-    } else {
-      _setInitialValue();
+    }
+    if (widget.unavailableData != null && widget.unavailableData != []) {
+      _setUnavailableData();
     }
   }
 
@@ -175,7 +187,16 @@ class _ListViewPickerState<T> extends State<ListViewPicker<T>> {
     );
   }
 
-  void _setAvailableValues() {
+  /// To set unavailable data for selected
+  void _setUnavailableData() {
+    for (var unavailableData in widget.unavailableData!) {
+      int index = tempData.indexWhere((e) => e.data == unavailableData);
+      tempData[index] = tempData[index].copy(isAvailable: false);
+    }
+  }
+
+  /// To set unavailable data for selected by index
+  void _setUnavailableDataByIndex() {
     for (int i in widget.unavailableDataIndex ?? []) {
       tempData[i].isAvailable = false;
     }
