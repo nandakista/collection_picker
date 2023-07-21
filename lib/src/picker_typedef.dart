@@ -19,5 +19,5 @@ typedef PickerOnChanged<T> = Function(
   BuildContext context,
   int index,
   T? selectedItem,
-  List<T?> selectedListItem,
+  List<T> selectedListItem,
 );

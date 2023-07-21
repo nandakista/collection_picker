@@ -209,7 +209,7 @@ class _ListViewPickerState<T> extends State<ListViewPicker<T>> {
       if (tempData[index].isAvailable) {
         tempData[index] = PickerWrapper(
           isSelected: true,
-          data: widget.initialValue,
+          data: widget.initialValue as T,
         );
       } else {
         throw "Initial value can't include in notAvailableIndex";
@@ -224,7 +224,7 @@ class _ListViewPickerState<T> extends State<ListViewPicker<T>> {
       if (tempData[index].isAvailable) {
         tempData[index] = PickerWrapper(
           isSelected: true,
-          data: widget.initialValue,
+          data: widget.initialValue as T,
         );
       } else {
         throw "Initial value can't include in notAvailableIndex";

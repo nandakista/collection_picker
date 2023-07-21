@@ -218,7 +218,7 @@ class _GridViewPickerState<T> extends State<GridViewPicker<T>> {
       if (tempData[index].isAvailable) {
         tempData[index] = PickerWrapper(
           isSelected: true,
-          data: widget.initialValue,
+          data: widget.initialValue as T,
         );
       } else {
         throw "Initial value can't include in notAvailableIndex";
@@ -232,7 +232,7 @@ class _GridViewPickerState<T> extends State<GridViewPicker<T>> {
           tempData.indexWhere((element) => element.data == widget.initialValue);
       tempData[index] = PickerWrapper(
         isSelected: true,
-        data: widget.initialValue,
+        data: widget.initialValue as T,
       );
       setState(() {});
     }

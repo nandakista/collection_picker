@@ -43,7 +43,7 @@ class CollectionPickerExample extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('${item.data?.city}'),
+                      Text(item.data.city),
                       (!item.isAvailable)
                           ? const Text('Unavailable')
                           : (item.isSelected)
@@ -77,7 +77,7 @@ class CollectionPickerExample extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('${item.data?.city}'),
+                      Text(item.data.city),
                       if (item.isSelected) const Icon(Icons.check),
                     ],
                   ),
@@ -89,7 +89,7 @@ class CollectionPickerExample extends StatelessWidget {
 
                 /// when the type is multiple, you should use this
                 debugPrint(
-                    'All selected item = ${selectedListItem.map((e) => e?.city)}');
+                    'All selected item = ${selectedListItem.map((e) => e.city)}');
               },
             ),
           ],

@@ -8,12 +8,12 @@ class PickerWrapper<T> {
   bool isAvailable;
 
   /// The actual data in item of the GridView or ListView Picker
-  T? data;
+  T data;
 
   PickerWrapper({
     this.isSelected = false,
     this.isAvailable = true,
-    this.data,
+    required this.data,
   });
 
   PickerWrapper<T> copy({

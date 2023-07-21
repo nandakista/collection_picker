@@ -1,3 +1,7 @@
+## 0.0.2 + 9
+
+- Change return of PickerOnChanged from List<T?> to List<T>
+
 ## 0.0.2 + 8
 
 - Add property enable, unavailableData
