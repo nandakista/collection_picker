@@ -90,9 +90,15 @@ class _ListViewPickerState<T> extends State<ListViewPicker<T>> {
   List<PickerWrapper<T>> tempData = [];
 
   @override
-  void didChangeDependencies() {
+  void initState() {
     setInitData();
-    super.didChangeDependencies();
+    super.initState();
+  }
+
+  @override
+  void didUpdateWidget(covariant ListViewPicker<T> oldWidget) {
+    setInitData();
+    super.didUpdateWidget(oldWidget);
   }
 
   void setInitData() {
