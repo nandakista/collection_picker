@@ -90,9 +90,9 @@ class _ListViewPickerState<T> extends State<ListViewPicker<T>> {
   List<PickerWrapper<T>> tempData = [];
 
   @override
-  void initState() {
+  void didChangeDependencies() {
     setInitData();
-    super.initState();
+    super.didChangeDependencies();
   }
 
   void setInitData() {
@@ -107,7 +107,6 @@ class _ListViewPickerState<T> extends State<ListViewPicker<T>> {
 
   @override
   Widget build(BuildContext context) {
-    setInitData();
     return ListView.separated(
       shrinkWrap: widget.shrinkWrap,
       physics: widget.physics,
