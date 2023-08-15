@@ -1,3 +1,8 @@
+## 0.0.2 + 10
+
+- Set Dart to >= 2.18.4 < 4.0.0
+- Update lints to 2.0.1
+
 ## 0.0.2 + 9
 
 - Change return of PickerOnChanged from List<T?> to List<T>
