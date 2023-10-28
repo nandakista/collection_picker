@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
 }
 
 class CollectionPickerExample extends StatelessWidget {
-  const CollectionPickerExample({Key? key}) : super(key: key);
+  const CollectionPickerExample({super.key});
 
   @override
   Widget build(BuildContext context) {

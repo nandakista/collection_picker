@@ -12,7 +12,7 @@ import 'picker_chips.dart';
 /// your selected item widget
 class ListViewPicker<T> extends StatefulWidget {
   const ListViewPicker({
-    Key? key,
+    super.key,
     required this.type,
     required this.data,
     required this.onChanged,
@@ -39,7 +39,7 @@ class ListViewPicker<T> extends StatefulWidget {
     this.findChildIndexCallback,
     this.unavailableData,
     this.enabled = true,
-  }) : super(key: key);
+  });
 
   /// Type of picker (single, radio, or multi)
   final PickerType type;

@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 /// Widget which wrap every item in GridView and ListView so can be used as picker widget.
 class PickerChips extends StatelessWidget {
   const PickerChips({
-    Key? key,
+    super.key,
     required this.onSelected,
     required this.child,
     required this.selected,
     this.isRadio = false,
-  }) : super(key: key);
+  });
 
   /// Callback function when the item is selected.
   /// It called when the widget has been tapped.
