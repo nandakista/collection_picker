@@ -6,6 +6,10 @@ import 'picker_wrapper.dart';
 import 'picker_typedef.dart';
 import 'picker_chips.dart';
 
+/// GridView with capabilities to select the item
+/// when you select or tap the item it will be return PickerWrapper<T> data
+/// that contains flag **isSelected**. With this flag you can easy customized
+/// your selected item widget
 class GridViewPicker<T> extends StatefulWidget {
   const GridViewPicker({
     Key? key,
@@ -79,23 +83,49 @@ class GridViewPicker<T> extends StatefulWidget {
   /// MainAxisSpacing of the GridView
   final double mainAxisSpacing;
 
+  /// ShrinkWrap of the GridView
   final bool shrinkWrap;
 
+  /// ScrollPhysics of the GridView
   final ScrollPhysics? physics;
 
+  /// Padding of the GridView
   final EdgeInsets? padding;
 
+  /// ScrollController of the GridView
   final ScrollController? controller;
+
+  /// reverse data status of the GridView
   final bool reverse;
+
+  /// cacheExtent of the GridView
   final double? cacheExtent;
+
+  /// primary of the GridView
   final bool? primary;
+
+  /// restorationId of the GridView
   final String? restorationId;
+
+  /// ScrollViewKeyboardDismissBehavior of the GridView
   final ScrollViewKeyboardDismissBehavior keyboardDismissBehavior;
+
+  /// clipBehavior of the GridView
   final Clip clipBehavior;
+
+  /// findChildIndexCallback of the GridView
   final int? Function(Key)? findChildIndexCallback;
+
+  /// DragStartBehavior of the GridView
   final DragStartBehavior dragStartBehavior;
+
+  /// addAutomaticKeepAlives of the GridView
   final bool addAutomaticKeepAlives;
+
+  /// addRepaintBoundaries of the GridView
   final bool addRepaintBoundaries;
+
+  /// addSemanticIndexes of the GridView
   final bool addSemanticIndexes;
 
   @override
@@ -117,6 +147,8 @@ class _GridViewPickerState<T> extends State<GridViewPicker<T>> {
     super.didUpdateWidget(oldWidget);
   }
 
+  /// Its called when you tet initial data from
+  /// [widget.initialValue] or [widget.initialValues]
   void setInitData() {
     tempData = widget.data
         .map((e) => PickerWrapper(data: e, isAvailable: widget.enabled))
@@ -126,7 +158,6 @@ class _GridViewPickerState<T> extends State<GridViewPicker<T>> {
     _setUnavailableDataByIndex();
     if (widget.initialValues != null && widget.initialValue != []) {
       _setInitialValues();
-    } else {
     }
     if (widget.unavailableData != null && widget.unavailableData != []) {
       _setUnavailableData();
@@ -226,6 +257,7 @@ class _GridViewPickerState<T> extends State<GridViewPicker<T>> {
     }
   }
 
+  /// Function to set single initial value as default selected
   void _setInitialValue() {
     if (widget.initialValue != null) {
       int index =

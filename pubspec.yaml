@@ -4,7 +4,7 @@ version: 0.0.2+10
 repository: https://github.com/nandakista/collection_picker
 
 environment:
-  sdk: '>=2.18.4 <4.0.0'
+  sdk: '>=3.0.3 <4.0.0'
 
 dependencies:
   flutter:

@@ -1,3 +1,7 @@
+## 1.0.0
+
+- First Stable Release :rocket:
+
 ## 0.0.2 + 10
 
 - Set Dart to >= 2.18.4 < 4.0.0

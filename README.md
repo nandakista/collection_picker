@@ -13,8 +13,15 @@ and the Flutter guide for
 
 # Overview
 
-A Package contains selectable listview and gridview widgets with 
-support for single, multi, and radio picker types.
+A Package contains highly customized selectable listview and gridview widgets with 
+support for single, multi, and radio picker types. Its automatically render selected item and you
+can easy customized your selected item view.
+
+### ListViewPicker
+<img src="https://user-images.githubusercontent.com/47182823/233113361-7ccfebb0-28a1-4692-b3dc-3c574d651306.gif" width="800" />
+
+### GridViewPicker
+<img src="https://user-images.githubusercontent.com/47182823/233122729-e20c9c91-003a-4ff4-919f-6a65d6446bc0.gif" width="300" />
 
 # Getting Started
 

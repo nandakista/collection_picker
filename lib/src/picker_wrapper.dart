@@ -16,6 +16,7 @@ class PickerWrapper<T> {
     required this.data,
   });
 
+  /// Helper that use to copy data of PickerWrapper
   PickerWrapper<T> copy({
     bool? isSelected,
     bool? isAvailable,

@@ -6,6 +6,10 @@ import 'picker_wrapper.dart';
 import 'picker_typedef.dart';
 import 'picker_chips.dart';
 
+/// ListView with capabilities to select the item
+/// when you select or tap the item it will be return PickerWrapper<T> data
+/// that contains flag **isSelected**. With this flag you can easy customized
+/// your selected item widget
 class ListViewPicker<T> extends StatefulWidget {
   const ListViewPicker({
     Key? key,
@@ -71,23 +75,49 @@ class ListViewPicker<T> extends StatefulWidget {
   /// Scroll Direction of ListView
   final Axis scrollDirection;
 
+  /// ShrinkWrap of the ListView
   final bool shrinkWrap;
 
+  /// ScrollPhysics of the ListView
   final ScrollPhysics? physics;
 
+  /// Padding of the ListView
   final EdgeInsets? padding;
 
+  /// ScrollController of the ListView
   final ScrollController? controller;
+
+  /// reverse data status of the ListView
   final bool reverse;
+
+  /// cacheExtent of the ListView
   final double? cacheExtent;
+
+  /// primary of the ListView
   final bool? primary;
+
+  /// restorationId of the ListView
   final String? restorationId;
+
+  /// ScrollViewKeyboardDismissBehavior of the ListView
   final ScrollViewKeyboardDismissBehavior keyboardDismissBehavior;
+
+  /// clipBehavior of the ListView
   final Clip clipBehavior;
+
+  /// findChildIndexCallback of the ListView
   final int? Function(Key)? findChildIndexCallback;
+
+  /// DragStartBehavior of the ListView
   final DragStartBehavior dragStartBehavior;
+
+  /// addAutomaticKeepAlives of the ListView
   final bool addAutomaticKeepAlives;
+
+  /// addRepaintBoundaries of the ListView
   final bool addRepaintBoundaries;
+
+  /// addSemanticIndexes of the ListView
   final bool addSemanticIndexes;
 
   @override
