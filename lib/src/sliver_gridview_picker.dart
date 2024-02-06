@@ -6,36 +6,25 @@ import 'picker_wrapper.dart';
 import 'picker_typedef.dart';
 import 'picker_chips.dart';
 
-/// ListView with capabilities to select the item
+/// Sliver GridView with capabilities to select the item
 /// when you select or tap the item it will be return PickerWrapper<T> data
 /// that contains flag **isSelected**. With this flag you can easy customized
 /// your selected item widget
-class ListViewPicker<T> extends StatefulWidget {
-  const ListViewPicker({
+class SliverGridViewPicker<T> extends StatefulWidget {
+  const SliverGridViewPicker({
     super.key,
     required this.type,
     required this.data,
     required this.onChanged,
+    required this.gridDelegate,
     required this.itemBuilder,
-    this.shrinkWrap = false,
-    this.physics,
-    this.separator,
     this.initialValue,
     this.initialValues,
-    this.scrollDirection = Axis.vertical,
     this.unavailableDataIndex,
-    this.padding,
-    this.controller,
-    this.cacheExtent,
-    this.reverse = false,
     this.addAutomaticKeepAlives = true,
     this.addRepaintBoundaries = true,
     this.addSemanticIndexes = true,
-    this.keyboardDismissBehavior = ScrollViewKeyboardDismissBehavior.manual,
-    this.restorationId,
-    this.clipBehavior = Clip.hardEdge,
     this.dragStartBehavior = DragStartBehavior.start,
-    this.primary,
     this.findChildIndexCallback,
     this.unavailableData,
     this.enabled = true,
@@ -69,62 +58,30 @@ class ListViewPicker<T> extends StatefulWidget {
   /// Called when the user select some value in the picker
   final PickerOnChanged<T> onChanged;
 
-  /// Separator widget for each item in the ListView
-  final IndexedWidgetBuilder? separator;
+  /// The delegate that controls the size and position of the children
+  final SliverGridDelegate gridDelegate;
 
-  /// Scroll Direction of ListView
-  final Axis scrollDirection;
-
-  /// ShrinkWrap of the ListView
-  final bool shrinkWrap;
-
-  /// ScrollPhysics of the ListView
-  final ScrollPhysics? physics;
-
-  /// Padding of the ListView
-  final EdgeInsets? padding;
-
-  /// ScrollController of the ListView
-  final ScrollController? controller;
-
-  /// reverse data status of the ListView
-  final bool reverse;
-
-  /// cacheExtent of the ListView
-  final double? cacheExtent;
-
-  /// primary of the ListView
-  final bool? primary;
-
-  /// restorationId of the ListView
-  final String? restorationId;
-
-  /// ScrollViewKeyboardDismissBehavior of the ListView
-  final ScrollViewKeyboardDismissBehavior keyboardDismissBehavior;
-
-  /// clipBehavior of the ListView
-  final Clip clipBehavior;
-
-  /// findChildIndexCallback of the ListView
+  /// findChildIndexCallback of the GridView
   final int? Function(Key)? findChildIndexCallback;
 
-  /// DragStartBehavior of the ListView
+  /// DragStartBehavior of the GridView
   final DragStartBehavior dragStartBehavior;
 
-  /// addAutomaticKeepAlives of the ListView
+  /// addAutomaticKeepAlives of the GridView
   final bool addAutomaticKeepAlives;
 
-  /// addRepaintBoundaries of the ListView
+  /// addRepaintBoundaries of the GridView
   final bool addRepaintBoundaries;
 
-  /// addSemanticIndexes of the ListView
+  /// addSemanticIndexes of the GridView
   final bool addSemanticIndexes;
 
   @override
-  State<ListViewPicker<T>> createState() => _ListViewPickerState<T>();
+  State<SliverGridViewPicker<T>> createState() =>
+      _SliverGridViewPickerState<T>();
 }
 
-class _ListViewPickerState<T> extends State<ListViewPicker<T>> {
+class _SliverGridViewPickerState<T> extends State<SliverGridViewPicker<T>> {
   List<PickerWrapper<T>> tempData = [];
 
   @override
@@ -134,18 +91,21 @@ class _ListViewPickerState<T> extends State<ListViewPicker<T>> {
   }
 
   @override
-  void didUpdateWidget(covariant ListViewPicker<T> oldWidget) {
+  void didUpdateWidget(covariant SliverGridViewPicker<T> oldWidget) {
     setInitData();
     super.didUpdateWidget(oldWidget);
   }
 
+  /// Its called when you tet initial data from
+  /// [widget.initialValue] or [widget.initialValues]
   void setInitData() {
     tempData = widget.data
         .map((e) => PickerWrapper(data: e, isAvailable: widget.enabled))
         .toList();
     _setUnavailableDataByIndex();
     _setInitialValue();
-    if (widget.initialValues != null && widget.initialValues != []) {
+    _setUnavailableDataByIndex();
+    if (widget.initialValues != null && widget.initialValue != []) {
       _setInitialValues();
     }
     if (widget.unavailableData != null && widget.unavailableData != []) {
@@ -155,60 +115,43 @@ class _ListViewPickerState<T> extends State<ListViewPicker<T>> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      shrinkWrap: widget.shrinkWrap,
-      physics: widget.physics,
+    return SliverGrid.builder(
       itemCount: tempData.length,
-      scrollDirection: widget.scrollDirection,
-      padding: widget.padding,
-      controller: widget.controller,
-      reverse: widget.reverse,
-      cacheExtent: widget.cacheExtent,
       addAutomaticKeepAlives: widget.addAutomaticKeepAlives,
       addRepaintBoundaries: widget.addRepaintBoundaries,
       addSemanticIndexes: widget.addSemanticIndexes,
-      clipBehavior: widget.clipBehavior,
-      dragStartBehavior: widget.dragStartBehavior,
       findChildIndexCallback: widget.findChildIndexCallback,
-      keyboardDismissBehavior: widget.keyboardDismissBehavior,
-      primary: widget.primary,
-      restorationId: widget.restorationId,
-      separatorBuilder: widget.separator ?? (BuildContext context, int index) {
-        return const SizedBox.shrink();
-      },
+      gridDelegate: widget.gridDelegate,
       itemBuilder: (context, index) {
         final item = tempData[index];
         return PickerChips(
-          selected: item.isSelected,
           isRadio: (widget.type == PickerType.radio) ? true : false,
-          onSelected: (bool isSelected) {
-            if (item.isAvailable) {
-              if (widget.type != PickerType.multiple) {
-                for (var element in tempData) {
-                  element.isSelected = false;
-                }
+          selected: item.isSelected,
+          onSelected: (isSelected) {
+            if (widget.type != PickerType.multiple) {
+              for (var element in tempData) {
+                element.isSelected = false;
               }
-              tempData = tempData.map(
-                (otherChip) {
-                  return item == otherChip
-                      ? otherChip.copy(isSelected: isSelected)
-                      : otherChip;
-                },
-              ).toList();
-              widget.onChanged(
-                context,
-                index,
-                tempData
-                    .firstWhereOrNull(
-                        (element) => element.isSelected && element.isAvailable)
-                    ?.data,
-                tempData
-                    .where(
-                        (element) => element.isSelected && element.isAvailable)
-                    .map((e) => e.data)
-                    .toList(),
-              );
             }
+            tempData = tempData.map(
+              (otherChip) {
+                return item == otherChip
+                    ? otherChip.copy(isSelected: isSelected)
+                    : otherChip;
+              },
+            ).toList();
+            widget.onChanged(
+              context,
+              index,
+              tempData
+                  .firstWhereOrNull(
+                      (element) => element.isSelected && element.isAvailable)
+                  ?.data,
+              tempData
+                  .where((element) => element.isSelected && element.isAvailable)
+                  .map((e) => e.data)
+                  .toList(),
+            );
             setState(() {});
           },
           child: widget.itemBuilder(context, index, item),
@@ -247,18 +190,15 @@ class _ListViewPickerState<T> extends State<ListViewPicker<T>> {
     }
   }
 
-  /// The function to set initial value as selected
+  /// Function to set single initial value as default selected
   void _setInitialValue() {
     if (widget.initialValue != null) {
-      int index = tempData.indexWhere((e) => e.data == widget.initialValue);
-      if (tempData[index].isAvailable) {
-        tempData[index] = PickerWrapper(
-          isSelected: true,
-          data: widget.initialValue as T,
-        );
-      } else {
-        throw "Initial value can't include in notAvailableIndex";
-      }
+      int index =
+          tempData.indexWhere((element) => element.data == widget.initialValue);
+      tempData[index] = PickerWrapper(
+        isSelected: true,
+        data: widget.initialValue as T,
+      );
       setState(() {});
     }
   }

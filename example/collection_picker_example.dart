@@ -32,7 +32,8 @@ class CollectionPickerExample extends StatelessWidget {
               type: PickerType.single,
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              separator: const Divider(thickness: 1, height: 16),
+              separator: (BuildContext context, int index) =>
+                  const Divider(thickness: 1, height: 16),
               initialValue: dataCity.first,
               data: dataCity,
               unavailableDataIndex: [3, 5],
@@ -66,6 +67,11 @@ class CollectionPickerExample extends StatelessWidget {
               shrinkWrap: true,
               initialValue: dataCity.first,
               data: dataCity,
+              gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                maxCrossAxisExtent: 200,
+                mainAxisExtent: 50,
+                crossAxisSpacing: 8,
+              ),
               itemBuilder: (BuildContext context, int index,
                   PickerWrapper<CityModel> item) {
                 return Container(
@@ -107,7 +113,7 @@ class CityModel {
 }
 
 List<CityModel> dataCity = [
-  CityModel('Jakarta', 'SCBD'),
+  CityModel('Jakarta', 'Menteng'),
   CityModel('Jakarta', 'Tebet'),
   CityModel('Jakarta', 'Gambir'),
   CityModel('Lampung', 'Bandar Lampung'),

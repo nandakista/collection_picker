@@ -16,11 +16,8 @@ class GridViewPicker<T> extends StatefulWidget {
     required this.type,
     required this.data,
     required this.onChanged,
+    required this.gridDelegate,
     required this.itemBuilder,
-    this.maxCrossAxisExtent,
-    this.mainAxisExtent,
-    this.crossAxisSpacing,
-    this.mainAxisSpacing = 0.0,
     this.shrinkWrap = false,
     this.physics,
     this.initialValue,
@@ -71,17 +68,8 @@ class GridViewPicker<T> extends StatefulWidget {
   /// Called when the user select some value in the picker
   final PickerOnChanged<T> onChanged;
 
-  /// MaxCrossAxisExtent of the GridView with default value 200
-  final double? maxCrossAxisExtent;
-
-  /// MainAxisExtent of the GridView with default value 50
-  final double? mainAxisExtent;
-
-  /// CrossAxisSpacing of the GridView with default value 8
-  final double? crossAxisSpacing;
-
-  /// MainAxisSpacing of the GridView
-  final double mainAxisSpacing;
+  /// The delegate that controls the size and position of the children
+  final SliverGridDelegate gridDelegate;
 
   /// ShrinkWrap of the GridView
   final bool shrinkWrap;
@@ -183,12 +171,7 @@ class _GridViewPickerState<T> extends State<GridViewPicker<T>> {
       keyboardDismissBehavior: widget.keyboardDismissBehavior,
       primary: widget.primary,
       restorationId: widget.restorationId,
-      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-        maxCrossAxisExtent: widget.maxCrossAxisExtent ?? 200,
-        mainAxisExtent: widget.mainAxisExtent ?? 50,
-        crossAxisSpacing: widget.crossAxisSpacing ?? 8,
-        mainAxisSpacing: widget.mainAxisSpacing,
-      ),
+      gridDelegate: widget.gridDelegate,
       itemBuilder: (context, index) {
         final item = tempData[index];
         return PickerChips(

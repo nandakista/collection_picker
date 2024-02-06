@@ -1,41 +1,28 @@
 import 'package:collection_picker/src/list_extension.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import 'picker_wrapper.dart';
 import 'picker_typedef.dart';
 import 'picker_chips.dart';
 
-/// ListView with capabilities to select the item
+/// Sliver ListView with capabilities to select the item
 /// when you select or tap the item it will be return PickerWrapper<T> data
 /// that contains flag **isSelected**. With this flag you can easy customized
 /// your selected item widget
-class ListViewPicker<T> extends StatefulWidget {
-  const ListViewPicker({
+class SliverListViewPicker<T> extends StatefulWidget {
+  const SliverListViewPicker({
     super.key,
     required this.type,
     required this.data,
     required this.onChanged,
     required this.itemBuilder,
-    this.shrinkWrap = false,
-    this.physics,
     this.separator,
     this.initialValue,
     this.initialValues,
-    this.scrollDirection = Axis.vertical,
     this.unavailableDataIndex,
-    this.padding,
-    this.controller,
-    this.cacheExtent,
-    this.reverse = false,
     this.addAutomaticKeepAlives = true,
     this.addRepaintBoundaries = true,
     this.addSemanticIndexes = true,
-    this.keyboardDismissBehavior = ScrollViewKeyboardDismissBehavior.manual,
-    this.restorationId,
-    this.clipBehavior = Clip.hardEdge,
-    this.dragStartBehavior = DragStartBehavior.start,
-    this.primary,
     this.findChildIndexCallback,
     this.unavailableData,
     this.enabled = true,
@@ -72,44 +59,8 @@ class ListViewPicker<T> extends StatefulWidget {
   /// Separator widget for each item in the ListView
   final IndexedWidgetBuilder? separator;
 
-  /// Scroll Direction of ListView
-  final Axis scrollDirection;
-
-  /// ShrinkWrap of the ListView
-  final bool shrinkWrap;
-
-  /// ScrollPhysics of the ListView
-  final ScrollPhysics? physics;
-
-  /// Padding of the ListView
-  final EdgeInsets? padding;
-
-  /// ScrollController of the ListView
-  final ScrollController? controller;
-
-  /// reverse data status of the ListView
-  final bool reverse;
-
-  /// cacheExtent of the ListView
-  final double? cacheExtent;
-
-  /// primary of the ListView
-  final bool? primary;
-
-  /// restorationId of the ListView
-  final String? restorationId;
-
-  /// ScrollViewKeyboardDismissBehavior of the ListView
-  final ScrollViewKeyboardDismissBehavior keyboardDismissBehavior;
-
-  /// clipBehavior of the ListView
-  final Clip clipBehavior;
-
   /// findChildIndexCallback of the ListView
   final int? Function(Key)? findChildIndexCallback;
-
-  /// DragStartBehavior of the ListView
-  final DragStartBehavior dragStartBehavior;
 
   /// addAutomaticKeepAlives of the ListView
   final bool addAutomaticKeepAlives;
@@ -121,10 +72,11 @@ class ListViewPicker<T> extends StatefulWidget {
   final bool addSemanticIndexes;
 
   @override
-  State<ListViewPicker<T>> createState() => _ListViewPickerState<T>();
+  State<SliverListViewPicker<T>> createState() =>
+      _SliverListViewPickerState<T>();
 }
 
-class _ListViewPickerState<T> extends State<ListViewPicker<T>> {
+class _SliverListViewPickerState<T> extends State<SliverListViewPicker<T>> {
   List<PickerWrapper<T>> tempData = [];
 
   @override
@@ -134,7 +86,7 @@ class _ListViewPickerState<T> extends State<ListViewPicker<T>> {
   }
 
   @override
-  void didUpdateWidget(covariant ListViewPicker<T> oldWidget) {
+  void didUpdateWidget(covariant SliverListViewPicker<T> oldWidget) {
     setInitData();
     super.didUpdateWidget(oldWidget);
   }
@@ -155,27 +107,16 @@ class _ListViewPickerState<T> extends State<ListViewPicker<T>> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      shrinkWrap: widget.shrinkWrap,
-      physics: widget.physics,
+    return SliverList.separated(
       itemCount: tempData.length,
-      scrollDirection: widget.scrollDirection,
-      padding: widget.padding,
-      controller: widget.controller,
-      reverse: widget.reverse,
-      cacheExtent: widget.cacheExtent,
       addAutomaticKeepAlives: widget.addAutomaticKeepAlives,
       addRepaintBoundaries: widget.addRepaintBoundaries,
       addSemanticIndexes: widget.addSemanticIndexes,
-      clipBehavior: widget.clipBehavior,
-      dragStartBehavior: widget.dragStartBehavior,
       findChildIndexCallback: widget.findChildIndexCallback,
-      keyboardDismissBehavior: widget.keyboardDismissBehavior,
-      primary: widget.primary,
-      restorationId: widget.restorationId,
-      separatorBuilder: widget.separator ?? (BuildContext context, int index) {
-        return const SizedBox.shrink();
-      },
+      separatorBuilder: widget.separator ??
+          (BuildContext context, int index) {
+            return const SizedBox.shrink();
+          },
       itemBuilder: (context, index) {
         final item = tempData[index];
         return PickerChips(

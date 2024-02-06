@@ -1,3 +1,9 @@
+## 1.1.0
+
+- New widget : SliverGridViewPicker & SliverListViewPicker
+- Remove properties maxCrossAxisExtent, mainAxisExtent, crossAxisSpacing, mainAxisSpacing in GridViewPicker
+- Adding new property gridDelegate for easy customizable
+
 ## 1.0.1
 
 - Fix pub score
