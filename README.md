@@ -53,7 +53,7 @@ class CityModel {
 And the dummy data list is :
 ```dart
 List<CityModel> dataCity = [
-  CityModel('Jakarta', 'SCBD'),
+  CityModel('Jakarta', 'Menteng'),
   CityModel('Jakarta', 'Tebet'),
   CityModel('Jakarta', 'Gambir'),
   CityModel('Lampung', 'Bandar Lampung'),
