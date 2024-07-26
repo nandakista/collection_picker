@@ -173,9 +173,10 @@ class _ListViewPickerState<T> extends State<ListViewPicker<T>> {
       keyboardDismissBehavior: widget.keyboardDismissBehavior,
       primary: widget.primary,
       restorationId: widget.restorationId,
-      separatorBuilder: widget.separator ?? (BuildContext context, int index) {
-        return const SizedBox.shrink();
-      },
+      separatorBuilder: widget.separator ??
+          (BuildContext context, int index) {
+            return const SizedBox.shrink();
+          },
       itemBuilder: (context, index) {
         final item = tempData[index];
         return PickerChips(
@@ -237,10 +238,7 @@ class _ListViewPickerState<T> extends State<ListViewPicker<T>> {
     for (var initialData in widget.initialValues!) {
       int index = tempData.indexWhere((e) => e.data == initialData);
       if (tempData[index].isAvailable) {
-        tempData[index] = PickerWrapper(
-          isSelected: true,
-          data: widget.initialValue as T,
-        );
+        tempData[index] = tempData[index].copy(isSelected: true);
       } else {
         throw "Initial value can't include in notAvailableIndex";
       }
@@ -252,10 +250,7 @@ class _ListViewPickerState<T> extends State<ListViewPicker<T>> {
     if (widget.initialValue != null) {
       int index = tempData.indexWhere((e) => e.data == widget.initialValue);
       if (tempData[index].isAvailable) {
-        tempData[index] = PickerWrapper(
-          isSelected: true,
-          data: widget.initialValue as T,
-        );
+        tempData[index] = tempData[index].copy(isSelected: true);
       } else {
         throw "Initial value can't include in notAvailableIndex";
       }

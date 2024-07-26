@@ -180,10 +180,7 @@ class _SliverGridViewPickerState<T> extends State<SliverGridViewPicker<T>> {
     for (var initialData in widget.initialValues!) {
       int index = tempData.indexWhere((e) => e.data == initialData);
       if (tempData[index].isAvailable) {
-        tempData[index] = PickerWrapper(
-          isSelected: true,
-          data: widget.initialValue as T,
-        );
+        tempData[index] = tempData[index].copy(isSelected: true);
       } else {
         throw "Initial value can't include in notAvailableIndex";
       }
@@ -195,10 +192,7 @@ class _SliverGridViewPickerState<T> extends State<SliverGridViewPicker<T>> {
     if (widget.initialValue != null) {
       int index =
           tempData.indexWhere((element) => element.data == widget.initialValue);
-      tempData[index] = PickerWrapper(
-        isSelected: true,
-        data: widget.initialValue as T,
-      );
+      tempData[index] = tempData[index].copy(isSelected: true);
       setState(() {});
     }
   }

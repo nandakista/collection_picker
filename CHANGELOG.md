@@ -1,3 +1,7 @@
+## 1.1.1
+
+- Fix issue initialValues properties return error
+
 ## 1.1.0
 
 - New widget : SliverGridViewPicker & SliverListViewPicker
