@@ -1,13 +1,13 @@
-import 'package:collection_picker/src/list_extension.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
+import 'list_extension.dart';
 import 'picker_wrapper.dart';
 import 'picker_typedef.dart';
 import 'picker_chips.dart';
 
 /// GridView with capabilities to select the item
-/// when you select or tap the item it will be return PickerWrapper<T> data
+/// when you select or tap the item it will be return `PickerWrapper<T>` data
 /// that contains flag **isSelected**. With this flag you can easy customized
 /// your selected item widget
 class GridViewPicker<T> extends StatefulWidget {
@@ -144,12 +144,8 @@ class _GridViewPickerState<T> extends State<GridViewPicker<T>> {
     _setUnavailableDataByIndex();
     _setInitialValue();
     _setUnavailableDataByIndex();
-    if (widget.initialValues != null && widget.initialValue != []) {
-      _setInitialValues();
-    }
-    if (widget.unavailableData != null && widget.unavailableData != []) {
-      _setUnavailableData();
-    }
+    _setInitialValues();
+    _setUnavailableData();
   }
 
   @override
@@ -212,9 +208,11 @@ class _GridViewPickerState<T> extends State<GridViewPicker<T>> {
 
   /// To set unavailable data for selected
   void _setUnavailableData() {
-    for (var unavailableData in widget.unavailableData!) {
-      int index = tempData.indexWhere((e) => e.data == unavailableData);
-      tempData[index] = tempData[index].copy(isAvailable: false);
+    if (widget.unavailableData != null && widget.unavailableData != []) {
+      for (var unavailableData in widget.unavailableData!) {
+        int index = tempData.indexWhere((e) => e.data == unavailableData);
+        tempData[index] = tempData[index].copy(isAvailable: false);
+      }
     }
   }
 
@@ -227,12 +225,14 @@ class _GridViewPickerState<T> extends State<GridViewPicker<T>> {
 
   /// The function to set list of initial value as selected
   void _setInitialValues() {
-    for (var initialData in widget.initialValues!) {
-      int index = tempData.indexWhere((e) => e.data == initialData);
-      if (tempData[index].isAvailable) {
-        tempData[index] = tempData[index].copy(isSelected: true);
-      } else {
-        throw "Initial value can't include in notAvailableIndex";
+    if (widget.initialValues != null && widget.initialValue != []) {
+      for (var initialData in widget.initialValues!) {
+        int index = tempData.indexWhere((e) => e.data == initialData);
+        if (tempData[index].isAvailable) {
+          tempData[index] = tempData[index].copy(isSelected: true);
+        } else {
+          throw "Initial value can't include in notAvailableIndex";
+        }
       }
     }
   }

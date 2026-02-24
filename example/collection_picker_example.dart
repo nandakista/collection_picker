@@ -10,9 +10,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: CollectionPickerExample(),
-    );
+    return const MaterialApp(home: CollectionPickerExample());
   }
 }
 
@@ -22,10 +20,9 @@ class CollectionPickerExample extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Collection Picker Example'),
-      ),
+      appBar: AppBar(title: Text('Collection Picker Example')),
       body: SingleChildScrollView(
+        padding: EdgeInsets.all(16),
         child: Column(
           children: [
             ListViewPicker<CityModel>(
@@ -33,14 +30,17 @@ class CollectionPickerExample extends StatelessWidget {
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               separator: (BuildContext context, int index) =>
-                  const Divider(thickness: 1, height: 16),
+                  const Divider(thickness: 1, height: 0),
               initialValue: dataCity.first,
               data: dataCity,
               unavailableDataIndex: [3, 5],
-              itemBuilder: (BuildContext context, int index,
-                  PickerWrapper<CityModel> item) {
+              itemBuilder: (
+                BuildContext context,
+                int index,
+                PickerWrapper<CityModel> item,
+              ) {
                 return SizedBox(
-                  height: 20,
+                  height: 40,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -49,7 +49,7 @@ class CollectionPickerExample extends StatelessWidget {
                           ? const Text('Unavailable')
                           : (item.isSelected)
                               ? const Icon(Icons.check)
-                              : const SizedBox.shrink()
+                              : const SizedBox.shrink(),
                     ],
                   ),
                 );
@@ -62,7 +62,7 @@ class CollectionPickerExample extends StatelessWidget {
                 debugPrint('All selected item = $selectedListItem');
               },
             ),
-            GridViewPicker(
+            GridViewPicker<CityModel>(
               type: PickerType.multiple,
               shrinkWrap: true,
               initialValue: dataCity.first,
@@ -71,9 +71,13 @@ class CollectionPickerExample extends StatelessWidget {
                 maxCrossAxisExtent: 200,
                 mainAxisExtent: 50,
                 crossAxisSpacing: 8,
+                mainAxisSpacing: 8,
               ),
-              itemBuilder: (BuildContext context, int index,
-                  PickerWrapper<CityModel> item) {
+              itemBuilder: (
+                BuildContext context,
+                int index,
+                PickerWrapper<CityModel> item,
+              ) {
                 return Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
@@ -95,7 +99,38 @@ class CollectionPickerExample extends StatelessWidget {
 
                 /// when the type is multiple, you should use this
                 debugPrint(
-                    'All selected item = ${selectedListItem.map((e) => e.city)}');
+                  'All selected item = ${selectedListItem.map((e) => e.city)}',
+                );
+              },
+            ),
+            WrapPicker<CityModel>(
+              type: PickerType.multiple,
+              initialValue: dataCity.first,
+              data: dataCity,
+              onChanged: (context, index, selectedItem, selectedListItem) {
+                // when the type is single/radio, you should use this
+                debugPrint('selected item = ${selectedItem?.city}');
+
+                /// when the type is multiple, you should use this
+                debugPrint(
+                  'All selected item = ${selectedListItem.map((e) => e.city)}',
+                );
+              },
+              itemBuilder: (context, index, item) {
+                return Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: Colors.grey.shade300),
+                  ),
+                  child: Wrap(
+                    spacing: 4,
+                    children: [
+                      Text(item.data.city),
+                      if (item.isSelected) const Icon(Icons.check, size: 18),
+                    ],
+                  ),
+                );
               },
             ),
           ],
@@ -106,10 +141,25 @@ class CollectionPickerExample extends StatelessWidget {
 }
 
 class CityModel {
-  String province;
-  String city;
+  final String province;
+  final String city;
 
-  CityModel(this.province, this.city);
+  const CityModel(this.province, this.city);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is CityModel &&
+        other.province == province &&
+        other.city == city;
+  }
+
+  @override
+  int get hashCode => province.hashCode ^ city.hashCode;
+
+  @override
+  String toString() => 'CityModel(province: $province, city: $city)';
 }
 
 List<CityModel> dataCity = [

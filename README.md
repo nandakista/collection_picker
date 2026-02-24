@@ -38,19 +38,39 @@ import 'package:collection_picker/collection_picker.dart';
 
 # Usage
 
-We use sample data with model data and lists as real to make it easier for you to understand
+⚠️ IMPORTANT ⚠️ !!
 
-The sample model data given is :
+You should follow this steps to avoid unexpected behaviors :
+1. Ensure that your model is extends with Equatable or make your model have 
+equality with operator == and hashCode.
+2. Always set `InitialValue` or `InitialValues` on your picker widget
+
+Example :
 ```dart
 class CityModel {
-  String province;
-  String city;
+  final String province;
+  final String city;
 
-  CityModel(this.province, this.city);
+  const CityModel(this.province, this.city);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is CityModel &&
+        other.province == province &&
+        other.city == city;
+  }
+
+  @override
+  int get hashCode => province.hashCode ^ city.hashCode;
+
+  @override
+  String toString() => 'CityModel(province: $province, city: $city)';
 }
 ```
 
-And the dummy data list is :
+And sample dummy data list below :
 ```dart
 List<CityModel> dataCity = [
   CityModel('Jakarta', 'Menteng'),
@@ -75,12 +95,20 @@ ListViewPicker<CityModel>(
   type: PickerType.single,
   shrinkWrap: true,
   physics: const NeverScrollableScrollPhysics(),
-  separator: const Divider(thickness: 1, height: 16),
+  separator: (BuildContext context, int index) =>
+    const Divider(thickness: 1, height: 0),
   initialValue: dataCity.first,
   data: dataCity,
-  itemBuilder: (PickerWrapper<CityModel> item) {
+  onChanged: (BuildContext context, int index, CityModel? selectedItem, List<CityModel> selectedItems) {
+    // when the type is single/radio, you should use this
+    debugPrint('Selected item = ${selectedItem.city}');
+
+    /// when the type is multiple, you should use this
+    debugPrint('All selected item = ${selectedListItem.map((e) => e.city)}');
+  },
+  itemBuilder: (BuildContext context, int index, PickerWrapper<CityModel> item) {
     return SizedBox(
-      height: 20,
+      height: 40,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -91,13 +119,6 @@ ListViewPicker<CityModel>(
         ],
       ),
     );
-  },
-  onChanged: (context, index, selectedItem, selectedListItem) {
-    // when the type is single/radio, you should use this
-    debugPrint('Selected item = ${selectedItem.city}');
-
-    /// when the type is multiple, you should use this
-    debugPrint('All selected item = ${selectedListItem.map((e) => e?.city)}');
   },
 )
 ```
@@ -114,32 +135,80 @@ GridViewPicker(
   shrinkWrap: true,
   initialValue: dataCity.first,
   data: dataCity,
-  itemBuilder: (PickerWrapper<CityModel> item) {
+  gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+    maxCrossAxisExtent: 200,
+    mainAxisExtent: 50,
+    crossAxisSpacing: 8,
+    mainAxisSpacing: 8,
+  ),
+  onChanged: (BuildContext context, int index, CityModel? selectedItem, List<CityModel> selectedItems) {
+    // when the type is single/radio, you should use this
+    debugPrint('selected item = ${selectedItem?.city}');
+
+    /// when the type is multiple, you should use this
+    debugPrint('All selected item = ${selectedListItem.map((e) => e.city)}');
+  },
+  itemBuilder: (BuildContext context, int index, PickerWrapper<CityModel> item) {
     return Container(
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: Colors.grey.shade300),
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text('${item.data?.city}'),
-          (item.isSelected)
-              ? const Icon(Icons.check)
-              : const SizedBox.shrink()
-        ],
+      child: Container(
+        padding: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: Colors.grey.shade300),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(item.data.city),
+            if (item.isSelected) const Icon(Icons.check),
+          ],
+        ),
       ),
     );
   },
-  onChanged: (context, index, selectedItem, selectedListItem) {
+)
+```
+
+### WrapPicker
+
+Actually is same as Picker ListView & GridView but it is serves as Wrap so the width is dynamic (not fixed).
+
+```dart
+WrapPicker<CityModel>(
+  type: PickerType.multiple,
+  initialValue: dataCity.first,
+  data: dataCity,
+  onChanged: (BuildContext context, int index, CityModel? selectedItem, List<CityModel> selectedItems) {
     // when the type is single/radio, you should use this
     debugPrint('selected item = ${selectedItem?.city}');
 
     /// when the type is multiple, you should use this
-    debugPrint('All selected item = ${selectedListItem.map((e) => e?.city)}');
+    debugPrint(
+      'All selected item = ${selectedListItem.map((e) => e.city)}',
+    );
   },
-)
+  itemBuilder: (BuildContext context, int index, PickerWrapper<CityModel> item) {
+    return Container(
+      padding: const EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.grey.shade300),
+      ),
+      child: Wrap(
+        spacing: 4,
+        children: [
+          Text(item.data.city),
+          if (item.isSelected) const Icon(Icons.check, size: 18),
+        ],
+      ),
+    );
+  },
+),
 ```
 
 # Additional information
