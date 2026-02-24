@@ -1,3 +1,10 @@
+## 2.0.0
+
+- Bump min. flutter version to 3.29.0
+- 🚀 Introduce new widget called WrapPicker 🚀
+- Fix pub score
+- Update README.md and example
+
 ## 1.1.1
 
 - Fix issue initialValues properties return error

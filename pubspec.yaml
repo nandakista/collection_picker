@@ -1,6 +1,6 @@
 name: collection_picker
 description: A Package contains selectable listview and gridview widgets with support for single, multi, and radio picker types.
-version: 1.1.1
+version: 2.0.0
 repository: https://github.com/nandakista/collection_picker
 
 # Flutter 3.29.0
